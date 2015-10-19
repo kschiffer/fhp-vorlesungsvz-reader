@@ -1,13 +1,28 @@
 <html>
   <head>
+    <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="inserter.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=checkAuth">
     </script>
   </head>
   <body>
+  <div id="after-authorization" style="display:none;">
+    <select id="vz-selector">
+      <option value="0">1. Studienabschnitt BA Design</option>
+      <option value="1">2. Studienabschnitt BA Design</option>
+      <option value="2">MA Design</option>
+    </select>
+    <button>FHP Kalender erstellen!</button>
+  </div>
+
     <div id="authorize-div" style="display: none">
       <span>Um die Kalender laden zu können, musst du mein Script kurz authorisieren, deinen Kalender zu modifieren.</span>
+      <p>Dieses Skript wird deinen Kalender in folgender Art und Weise modifizieren:</p>
+      <ul>
+      <li>Es wird einen Kalender "FHP Vorlesungen" erstellen</li>
+      <li>Es wird für jeden Kurs im Vorlesungsverzeichnis ein Ereignis erstellen und diesem Kalender hinzufügen</li>
+      </ul>
       <!--Button for the user to click to initiate auth sequence -->
       <button id="authorize-button" onclick="handleAuthClick(event)">
         Authorisieren

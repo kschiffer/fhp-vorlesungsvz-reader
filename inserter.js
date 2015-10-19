@@ -1,7 +1,6 @@
 // Your Client ID can be retrieved from your project in the Google
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '566245696909-2iadilfimf1ddbjpcrori2neuig16u96.apps.googleusercontent.com';
-
 var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 
 /**
@@ -51,7 +50,17 @@ var SCOPES = ["https://www.googleapis.com/auth/calendar"];
  * once client library is loaded.
  */
  function loadCalendarApi() {
-  gapi.client.load('calendar', 'v3', createEvents);
+  $('#after-authorization').fadeIn();
+  $buttonElem = $('#after-authorization button');
+  $buttonElem.click(function(){
+    $buttonElem.html("Alles klar!").delay(1000).fadeOut(function(){
+        gapi.client.load('calendar', 'v3', createEvents);
+    });
+ });
+}
+
+function logToOutput(message) {
+  $('#output').html($('#output').html() + message + "\n");
 }
 
 /**
@@ -65,6 +74,8 @@ var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 // Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
 // stored credentials.
 
+logToOutput("Kurse werden aus dem Vorlesungsverzeichnis geparst, bitte warten...");
+
 var batch = gapi.client.newBatch();
 
 var calendar = {
@@ -75,11 +86,13 @@ var calendar = {
 var request = gapi.client.calendar.calendars.insert({resource: calendar});
 request.execute(function(fhpCalendar){
   console.log(fhpCalendar.id);
-  $.getJSON('vz-reader.php', function(data) {
-    
+  logToOutput("Neuer FHP Kalender erstellt.");
+
+  $.get('vz-reader.php', {source: $("#vz-selector").val()}).done(function(data) {
 
     $.each(data, function(index, value){
       console.log(value["titel"]);
+      logToOutput("Kurs gefunden: \""+value["titel"]+"\"");
 
       var dateValue = 'dateTime';
 
@@ -123,9 +136,11 @@ request.execute(function(fhpCalendar){
     });
 
     console.log("executing");
+    logToOutput("Kurse werden als Ereignis eingetragen...");
 
     batch.execute(function(responseMap,rawBatchResponse) {
       console.log(responseMap);
+      logToOutput('Fertig! Die Kurse sollten jetzt in <a href="https://calendar.google.com/" title="Meinen Google Kalender Anzeigne">deinem Google Kalender</a> zu sehen sein!');
     });
 
   });

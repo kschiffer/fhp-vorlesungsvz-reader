@@ -1,7 +1,20 @@
 <?php
 header("Content-type: text/json");
 
-$html = file_get_contents('http://www.fh-potsdam.de/studieren/design/studium/vorlesungsverzeichnis/1-studienabschnitt-ba-design/');
+$sources = [
+	'http://www.fh-potsdam.de/studieren/design/studium/vorlesungsverzeichnis/1-studienabschnitt-ba-design/',
+	'http://www.fh-potsdam.de/studieren/design/studium/vorlesungsverzeichnis/2-studienabschnitt-ba-design/',
+	'http://www.fh-potsdam.de/studieren/design/studium/vorlesungsverzeichnis/ma-design/'];
+
+$source = 0;
+
+if (isset($_GET['source']) && is_numeric($_GET['source'])){
+	$source = intval($_GET['source']);
+	if ($source <= 0 || $source >= 2)
+		$source = 0;
+}
+
+$html = file_get_contents($sources[$source]);
 
 $doc = new DOMDocument();
 libxml_use_internal_errors(true);
