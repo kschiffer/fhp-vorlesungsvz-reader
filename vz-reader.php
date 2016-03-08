@@ -18,18 +18,20 @@ $html = file_get_contents($sources[$source]);
 
 $doc = new DOMDocument();
 libxml_use_internal_errors(true);
-$doc->loadHTML($html); // loads your HTML
+$doc->loadHTML($html); // loads the html
 $xpath = new DOMXPath($doc);
-// returns a list of all links with rel=nofollow
+// extract the course table
 $entries = $xpath->query('//tr[@class="short"]');
 
-$baseDateString = '2015-10-18';
+$baseDateString = 'next Sunday';
 
 $courses = [];
 $modules = [];
 
     	$translate = ["Montag" => "monday", "Dienstag" => "tuesday", "Mittwoch" => "wednesday", "Donnerstag" => "thursday", "Freitag" => "friday"];
 
+
+// cycle through the course table and extract the data using some regex magic
 foreach ($entries as $entry) {
     $ro = preg_replace('/\s\s+/', "\t",trim($entry->nodeValue));
     //echo $ro ."\n";
