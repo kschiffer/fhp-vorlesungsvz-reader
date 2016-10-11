@@ -2,7 +2,7 @@
 
 This script reads the FHP Website to get information about its courses. The info is then used to make an API call to Google Calendar in order to add the courses to the users calendar as events. This will make it easier for students to check which courses have time intersections.
 
-###[Live Demo](http://base.kevinschiffer.de/Kevin/projects/fhp2gcal/vz-reader.php)###
+###[Live Demo](http://base.kevinschiffer.de/Kevin/projects/fhp2gcal/)###
 
 _Note: This project is a rather quick draft which however does precisely what it promises._
 
